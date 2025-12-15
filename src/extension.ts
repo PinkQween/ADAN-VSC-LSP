@@ -20,7 +20,7 @@ import {
 let language_client: LanguageClient;
 
 export function activate(context: ExtensionContext) {
-    let server_module = context.asAbsolutePath(path.join("server", "out", "server.js"));
+    let server_module = context.asAbsolutePath(path.join("out", "server", "server.js"));
     let debug_options = {
         execArgv: ["--nolazy", "--inspect=6009"]
     }; // `--inspect=6009` runs hte server in Node's Inspector mode so VS Code can attach to the server for debugging.
@@ -40,10 +40,10 @@ export function activate(context: ExtensionContext) {
     let client_options: LanguageClientOptions = {
         documentSelector: [{
             scheme: "file",
-            language: "plaintext"
+            language: "adan"
         }],
         synchronize: {
-            fileEvents: workspace.createFileSystemWatcher("**/.clientrc")
+            fileEvents: workspace.createFileSystemWatcher("**/*.adn")
         }
     };
 

@@ -1,0 +1,39 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "compile",
+            "type": "shell",
+            "command": "yarn",
+            "args": ["run", "compile"],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": "$tsc",
+            "presentation": {
+                "reveal": "silent"
+            }
+        },
+        {
+            "label": "clean rebuild",
+            "type": "shell",
+            "command": "yarn",
+            "args": ["run", "compile"],
+            "group": "build",
+            "problemMatcher": "$tsc",
+            "presentation": {
+                "reveal": "silent"
+            }
+        },
+        {
+            "label": "watch",
+            "type": "shell",
+            "command": "yarn",
+            "args": ["run", "watch"],
+            "group": "build",
+            "isBackground": true,
+            "problemMatcher": "$tsc-watch"
+        }
+    ]
+}

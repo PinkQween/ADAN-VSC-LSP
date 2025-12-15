@@ -9,3 +9,28 @@ ADAN was developed by [Lily](https://github.com/transicle), [Kauht](https://gith
 The ADAN LSP (Language Server Protocol) provides various features, such as: **syntax highlighting** and **auto-completion**. Making development in ADAN seamless and less of a hassle.
 
 > [View the ADAN language's source code or install the language for yourself](https://github.com/Cappucina/ADAN.git).
+
+## Features
+
+- Syntax highlighting
+- Code snippets
+- - Increase your development speed with easily editable pre-built blocks of code.
+
+Turn something from this:
+```c
+include adan.io;
+
+pro
+```
+
+Into this:
+```c
+include adan.io;
+
+program::void my_function(parameters) {
+
+}
+```
+
+- Auto completion
+- - `pr` -> `program`, `t` -> `true`, etc.

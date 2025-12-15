@@ -10,8 +10,29 @@
     "Other"
   ],
   "activationEvents": [],
-  "main": "./out/extension.js",
-  "contributes": {},
+  "main": "./out/src/extension.js",
+  "contributes": {
+    "languages": [
+      {
+        "id": "adan",
+        "aliases": [
+          "ADAN",
+          "adan"
+        ],
+        "extensions": [
+          ".adn"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "adan",
+        "scopeName": "source.adn",
+        "path": "./syntax/adan.tmLanguage.json"
+      }
+    ]
+  },
   "scripts": {
     "vscode:prepublish": "yarn run compile",
     "compile": "tsc -p ./",
