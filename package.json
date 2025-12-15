@@ -2,7 +2,7 @@
   "name": "adan-lsp",
   "displayName": "ADAN LSP",
   "description": "Syntax highlighting for the ADAN programming language.",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "engines": {
     "vscode": "^1.107.0"
   },
@@ -12,6 +12,7 @@
   "repository": {
     "url": "https://github.com/Cappucina/ADAN-VSC-LSP.git"
   },
+  "publisher": "Cappucina",
   "activationEvents": [],
   "main": "./out/src/extension.js",
   "contributes": {
