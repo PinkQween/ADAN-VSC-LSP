@@ -7,13 +7,15 @@ import {
     InitializeParams,
     DidChangeConfigurationNotification,
     CompletionItem,
-    CompletionItemKind,
     TextDocumentPositionParams,
     TextDocumentSyncKind,
-    InitializeResult
+    InitializeResult,
 } from "vscode-languageserver/node";
 import { TextDocument } from "vscode-languageserver-textdocument";
 import { ServerSettings } from "./settings.js";
+import { snippet_keywords } from "./snippets/keywords.js";
+import { snippet_types } from "./snippets/types.js";
+import { snippet_constants } from "./snippets/constants.js";
 
 let server_connection = createConnection(ProposedFeatures.all);
 let documents: TextDocuments<TextDocument> = new TextDocuments(TextDocument);
@@ -33,7 +35,8 @@ server_connection.onInitialize((params: InitializeParams) => {
         capabilities: {
             textDocumentSync: TextDocumentSyncKind.Incremental,
             completionProvider: {
-                resolveProvider: true
+                resolveProvider: true,
+                triggerCharacters: [".", ":", " "]
             }
         }
     };
@@ -61,7 +64,7 @@ server_connection.onInitialized(() => {
     }
 });
 
-const default_settings: ServerSettings = { max_number_of_problems: 9999 }; // When are you going to have this many of problems anyway?
+const default_settings: ServerSettings = { max_number_of_problems: 9999 };
 
 let global_settings: ServerSettings = default_settings;
 let document_settings: Map<string, Thenable<ServerSettings>> = new Map();
@@ -71,7 +74,7 @@ server_connection.onDidChangeConfiguration(change => {
         document_settings.clear();
     } else {
         global_settings = <ServerSettings>(
-            (change.settings.adanLanguageServer || default_settings)
+            (change.settings.adnLanguageServer || default_settings)
         );
     }
 
@@ -112,7 +115,7 @@ async function validate_text_document(text_document: TextDocument): Promise<void
     let problems = 0;
     let diagnostics: Diagnostic[] = [];
 
-    while ((m = pattern.exec(text)) && problems < settings.max_number_of_problems) {
+    while ((m = pattern.exec(text)) && problems < (settings.max_number_of_problems || 9999)) {
         problems++;
 
         let diagnostic: Diagnostic = {
@@ -157,22 +160,35 @@ server_connection.onDidChangeWatchedFiles(change => {
     server_connection.console.log("Received a file change event.");
 });
 
+const keywords: CompletionItem[] = snippet_keywords;
+const types: CompletionItem[] = snippet_types;
+const constants: CompletionItem[] = snippet_constants;
+
+const all_completions: CompletionItem[] = [
+    ...keywords,
+    ...types,
+    ...constants,
+];
+
 server_connection.onCompletion((text_document_position: TextDocumentPositionParams): CompletionItem[] => {
-    return [
-        {
-            label: "ADAN",
-            kind: CompletionItemKind.Text,
-            data: 1
-        }
-    ];
+    const document = documents.get(text_document_position.textDocument.uri);
+    if (!document) {
+        return all_completions;
+    }
+
+    const text = document.getText();
+    const offset = document.offsetAt(text_document_position.position);
+    const line_start = text.lastIndexOf('\n', offset - 1) + 1;
+    const line_text = text.substring(line_start, offset);
+
+    if (line_text.trim().endsWith("::") || line_text.match(/::\s*$/)) {
+        return types;
+    }
+
+    return all_completions;
 });
 
 server_connection.onCompletionResolve((item: CompletionItem): CompletionItem => {
-    if (item.data === 1) {
-        item.detail = "ADAN details";
-        item.documentation = "ADAN documentation";
-    }
-
     return item;
 });
 

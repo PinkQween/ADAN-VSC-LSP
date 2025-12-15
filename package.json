@@ -1,19 +1,28 @@
 {
-  "name": "adan-lsp",
-  "displayName": "ADAN LSP",
-  "description": "Syntax highlighting for the ADAN programming language.",
-  "version": "0.0.1",
+  "name": "adan",
+  "displayName": "ADAN LSP and Snippets",
+  "description": "Syntax highlighting, snippets, and tab completion for the ADAN programming language.",
+  "version": "0.0.2",
   "engines": {
     "vscode": "^1.107.0"
   },
   "categories": [
     "Other"
   ],
+  "repository": {
+    "url": "https://github.com/Cappucina/ADAN-VSC-LSP.git"
+  },
+  "publisher": "Cappucina",
   "activationEvents": [],
+<<<<<<< HEAD
   "main": "./out/extension.js",
   "icon": "images/adan-icon.png",
   "contributes": {
     "commands": [],
+=======
+  "main": "./out/src/extension.js",
+  "contributes": {
+>>>>>>> 26ccb0ed41157a8b5424bb9394ed26406b4c77fa
     "languages": [
       {
         "id": "adan",
@@ -22,6 +31,7 @@
           "adan"
         ],
         "extensions": [
+<<<<<<< HEAD
           ".adan",
           ".adn"
         ],
@@ -29,6 +39,18 @@
           "light": "./images/adan-light.svg",
           "dark": "./images/adan-dark.svg"
         }
+=======
+          ".adn"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "adan",
+        "scopeName": "source.adn",
+        "path": "./syntax/adan.tmLanguage.json"
+>>>>>>> 26ccb0ed41157a8b5424bb9394ed26406b4c77fa
       }
     ]
   },
